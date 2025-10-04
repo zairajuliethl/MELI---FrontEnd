@@ -1,0 +1,38 @@
+{
+  "name": "prueba-tecnica-tienda",
+  "version": "1.0.0",
+  "description": "Aplicación full-stack de tienda online - Prueba técnica",
+  "private": true,
+  "scripts": {
+    "install-all": "npm run install:client && npm run install:server",
+    "install:client": "cd Cliente/prueba-tecnica-tienda && npm install",
+    "install:server": "cd Servidor && npm install",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "cd Cliente/prueba-tecnica-tienda && npm start",
+    "dev:server": "cd Servidor && npm start",
+    "build": "cd Cliente/prueba-tecnica-tienda && npm run build",
+    "test": "npm run test:client && npm run test:server",
+    "test:client": "cd Cliente/prueba-tecnica-tienda && npm test -- --watchAll=false",
+    "test:server": "cd Servidor && npm test",
+    "clean": "rimraf Cliente/prueba-tecnica-tienda/node_modules Cliente/prueba-tecnica-tienda/build Servidor/node_modules",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.10"
+  },
+  "workspaces": [
+    "Cliente/prueba-tecnica-tienda",
+    "Servidor"
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zairajuliethl/MELI---FrontEnd.git"
+  },
+  "author": "Tu Nombre",
+  "license": "MIT"
+}
