@@ -14,7 +14,6 @@
     "test": "npm run test:client && npm run test:server",
     "test:client": "cd Cliente/prueba-tecnica-tienda && npm test -- --watchAll=false",
     "test:server": "cd Servidor && npm test",
-    "clean": "rimraf Cliente/prueba-tecnica-tienda/node_modules Cliente/prueba-tecnica-tienda/build Servidor/node_modules",
     "start": "npm run dev"
   },
   "devDependencies": {

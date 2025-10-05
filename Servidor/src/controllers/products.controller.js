@@ -9,18 +9,13 @@ export const getProducts = async (req, res) => {
       res.json({
         success: true,
         message: 'Productos obtenidos desde MercadoLibre API',
-        service: 'MercadoLibre API',
-        query: q,
-        count: result.data.results?.length || 0,
         data: result.data,
-        timestamp: new Date().toISOString()
       });
     } else {
       res.status(result.status).json({
         success: false,
         message: 'Error al obtener productos de MercadoLibre',
         error: result.error,
-        timestamp: new Date().toISOString()
       });
     }
   } catch (error) {
@@ -28,7 +23,6 @@ export const getProducts = async (req, res) => {
       success: false,
       message: 'Error interno del servidor',
       error: error.message,
-      timestamp: new Date().toISOString()
     });
   }
 };
@@ -42,16 +36,13 @@ export const getProductById = async (req, res) => {
       res.json({
         success: true,
         message: `Producto ${id} obtenido de MercadoLibre`,
-        service: 'MercadoLibre API',
         data: result.data,
-        timestamp: new Date().toISOString()
       });
     } else {
       res.status(result.status).json({
         success: false,
         message: `Error al obtener producto ${id} de MercadoLibre`,
         error: result.error,
-        timestamp: new Date().toISOString()
       });
     }
   } catch (error) {
@@ -59,7 +50,6 @@ export const getProductById = async (req, res) => {
       success: false,
       message: 'Error interno del servidor',
       error: error.message,
-      timestamp: new Date().toISOString()
     });
   }
 };
