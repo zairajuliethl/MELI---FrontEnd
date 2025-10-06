@@ -1,1 +1,10 @@
 export { default as logo } from './logo.png';
+export { default as home } from './home.webp';
+export { default as sport } from './sport.webp';
+export { default as technology } from './technology.webp';
+export { default as clothes } from './clothes.webp';
+export { default as reloj } from "./reloj.webp";
+export { default as shoes } from "./shoes.webp";
+export { default as earphones } from "./earphones.webp";
+export { default as carousel } from "./carousel.png";
+export { default as cam } from "./cam.webp";

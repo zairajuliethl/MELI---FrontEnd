@@ -1,0 +1,58 @@
+@import 'src/style/breakpoints'
+
+.search-template-container
+    width: 55rem
+    margin: 30px
+    padding: 30px
+    background-color: white
+    border-radius: 10px
+    display: flex
+    flex-direction: column
+    align-items: center
+    background: linear-gradient(to bottom, #FFE600, #e6e6e6)
+
+    +for-tablet
+        width: 90%
+
+    +for-mobile
+        width: 80%
+
+    .carousel
+        padding: 20px
+        border-radius: 10px
+        background: white
+        width: 750px
+        height: 300px
+        display: flex
+        justify-content: center
+        align-items: center
+
+        +for-tablet
+            width: 90%
+
+        +for-mobile
+            width: 90%
+
+        .image-carousel
+            width: 300px
+        .text
+            font-size: 40px
+            font-family: arial
+
+    .categories, .products
+        font-family: arial
+        text-align: start
+        justify-content: space-between
+        text-align: start
+        height: 100%
+        display: grid
+        grid-template-columns: repeat(4, 1fr)
+        gap: 25px
+
+        +for-tablet
+            grid-template-columns: repeat(2, 1fr)
+            gap: 20px
+
+        +for-mobile
+            grid-template-columns: repeat(2, 1fr)
+            gap: 20px
