@@ -1,16 +1,14 @@
 import "./breadcrumb.sass"
 
-export const Bredcrumb = (items) => {
-
-    console.log(items,"ITEMS");
+export const Breadcrumb = ({items, onItemClick} ) => {
     
     return (
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 {
-                    items.items && items.items.map(i => (
+                    items && items.map(i => (
                         <li className="breadcrumb-item">
-                            <a href="/" className="breadcrumb-link">{i.name}</a>
+                            <button className="breadcrumb-link" onClick={e =>{ onItemClick(i)}}>{i.name}</button>
                             <span className="breadcrumb-separator"> › </span>
                         </li>
                     ))

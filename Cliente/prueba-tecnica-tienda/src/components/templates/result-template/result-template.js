@@ -3,96 +3,85 @@ import { useState, useEffect, useCallback } from "react";
 import { getItems } from "../../../services/products";
 import { Card } from "../../molecules/card/card";
 import { Loader } from "../../atoms/loader/loader";
-import { Bredcrumb } from "../../atoms/breadcrumb/breadcrumb"
+import { Breadcrumb } from "../../atoms/breadcrumb/breadcrumb"
+import { transformPrice } from "../../../utils/global-functions"
 import "./result-template.sass";
 
-export const ResulteTemplate = () => {
+export const ResultTemplate = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const [items, setItems] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [response, setResponse] = useState([]);
+    const [breadcrumbItems, setBreadcrumbItems] = useState([]);
+    const [loader, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const searchTerm = searchParams.get('search') || '';
 
-    const fetchItems = useCallback(async () => {
-        if (!searchTerm.trim()) {
-            setItems([]);
+    const fetchItems = useCallback(async (item) => {
+
+        if (!item.trim()) {
+            setResponse([]);
+            setBreadcrumbItems([]);
             return;
         }
         setLoading(true);
         setError(null);
-        try {
-            const data = await getItems(searchTerm);
-            console.log(JSON.stringify(data.data, null, 2), "DAAAAAAA");
 
-            setItems(data.data);
+        try {
+            const data = await getItems(item);
+            setResponse(data.data);
+
+            let newBreadcrumb = [];
+            if (data.data.categories && data.data.categories.length > 0) {
+                newBreadcrumb = data.data.categories.map(cat => ({ name: cat.name }));
+            }
+            newBreadcrumb.push({ name: item });
+            setBreadcrumbItems(newBreadcrumb);
         } catch (err) {
             setError('Error al cargar los productos');
-            console.error('Error loading items:', err);
         } finally {
             setLoading(false);
         }
-    }, [searchTerm]);
+    }, []);
 
     useEffect(() => {
-        fetchItems();
-    }, [fetchItems]);
+        fetchItems(searchTerm);
+    }, [searchTerm, fetchItems]);
 
     const handleCardClick = (itemId) => {
         navigate(`/items/${String(itemId)}`);
     };
 
-    if (loading) {
-        return (
-            <div className="result-template">
-                <Loader />
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="result-template">
-                <p style={{ color: 'red' }}>{error}</p>
-            </div>
-        );
-    }
-    
-    if (items.items && !items.items.length && searchTerm) {
-        return (
-            <div className="result-template">
-                <p>No se encontraron productos para "{searchTerm}"</p>
-            </div>
-        );
-    }
-
-    
-    let bread = [];
-    if (items.categories && items.categories.length > 0) {
-        bread = items.categories.map(category => ({ name: category.name }));
-    }
-    if (searchTerm) {
-        bread.push({ name: searchTerm });
-    }
+    const handleBreadcrumbClick = (item) => {
+        setBreadcrumbItems([item]);
+        fetchItems(item.name);        
+    };
 
 
     return (
         <div className="result-template">
-            <Bredcrumb items={bread}/>
-            <div className="cards">
-                {
-                    items.items && items.items.map(i => (
-                        <Card
-                            title={i.title}
-                            image={i.picture}
-                            price={i.price.amount}
-                            clickCard={() => handleCardClick(i.id)}
-                        />
-                    )
-                    )
-                }
-            </div>
+            {loader && <Loader />}
+            {error && <p className="error">{error}</p>}
+            {response.items && response.items.length < 1 && searchTerm && <p>No se encontraron productos para "{searchTerm}"</p>}
+            {response.items && response.items.length > 0 && !loader && !error && (
+                <div>
+                    <Breadcrumb items={breadcrumbItems} onItemClick={handleBreadcrumbClick} />
+                    <div className="cards">
+                        {
+                            response.items && response.items.slice(0,4).map(i => (
+                                <Card
+                                    key={i.id}
+                                    title={i.title}
+                                    image={i.picture}
+                                    price={transformPrice(i.price.amount)}
+                                    clickCard={() => handleCardClick(i.id)}
+                                />
+                            )
+                            )
+                        }
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

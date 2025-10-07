@@ -1,21 +1,23 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import "./details-products-template.sass"
-import { Bredcrumb } from "../../atoms/breadcrumb/breadcrumb";
+import "./details-products-template.sass";
+import { Breadcrumb } from "../../atoms/breadcrumb/breadcrumb";
 import { Button } from "../../atoms/button/button";
 import { Image } from "../../atoms/image/image";
 import { Loader } from "../../atoms/loader/loader";
 import { getItemById } from "../../../services/products";
+import { transformPrice } from "../../../utils/global-functions";
 import { useEffect, useState } from "react";
 import { useCallback } from "react";
 
 import { PopUp } from "../../molecules/pop-up/pop-up";
 
 export const DetailsProductTemplate = () => {
-
+    const navigate = useNavigate();
     const params = useParams();
-    const [item, setItem] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [response, setResponse] = useState(null);
+    const [breadcrumbItems, setBreadcrumbItems] = useState([]);
+    const [loader, setLoading] = useState(false);
     const [popUp, setPopUp] = useState(false);
     const [error, setError] = useState(null);
 
@@ -23,19 +25,26 @@ export const DetailsProductTemplate = () => {
 
     const fetchItems = useCallback(async () => {
         if (!productId.trim()) {
-            setItem(null);
+            setResponse(null);
+            setBreadcrumbItems([]);
             return;
         }
         setLoading(true);
         setError(null);
         try {
             const data = await getItemById(productId);
-            console.log(data.data.item);
+            setResponse(data.data.item);
 
-            setItem(data.data.item);
+            let newBreadcrumb = [];
+
+            if (data.data.item) {
+                newBreadcrumb.push({ name: data.data.item.category });
+                newBreadcrumb.push({ name: data.data.item.title });
+            }
+            setBreadcrumbItems(newBreadcrumb);
         } catch (err) {
-            setError('Error al cargar el producto');
-            console.error('Error loading item:', err);
+            setError("Error al cargar el producto");
+            console.error("Error loading item:", err);
         } finally {
             setLoading(false);
         }
@@ -43,68 +52,58 @@ export const DetailsProductTemplate = () => {
 
     useEffect(() => {
         fetchItems();
-    }, [fetchItems, productId]);
-
-    if (loading) {
-        return (
-            <div className="result-template">
-                <Loader/>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="result-template">
-                <p style={{ color: 'red' }}>{error}</p>
-            </div>
-        );
-    }
-    if (!item && productId) {
-        return (
-            <div className="result-template">
-                <p>No se encontraron productos para "{productId}"</p>
-            </div>
-        );
-    }
+    }, [fetchItems]);
 
     const buyProduct = () => {
         setPopUp(true);
-    }
+    };
 
     const closePopUp = () => {
-        setPopUp(false)
-    }
+        setPopUp(false);
+    };
 
-    let bread = [];
+    const handleBreadcrumbClick = (item) => {
+        navigate(`/items?search=${encodeURIComponent(item.name)}`);
+    };
 
-    if (item) {
-        bread.push({name: item.category});
-        bread.push({name: item.title});
-    }
 
+
+    console.log(response, "RESPONSEEEEE");
 
     return (
         <div className="details-product-template">
-            <Bredcrumb  items={bread} />
-            {popUp && <PopUp title='Producto no disponible' text="Te invitamos a explorar otras opciones similares que podrían interesarte. " closePopUp={closePopUp} />}
-            <div className="details">
-                <div className="image-container">
-                    <div className="image">
-                        <Image src={item.picture} alt={item.title} />
+            {loader && <Loader />}
+            {error && <p className="error">{error}</p>}
+            {!response && productId && <p>No se encontraron productos para "{productId}"</p>}
+            {response && productId && (
+                <div className="details-product-template">
+                    <Breadcrumb items={breadcrumbItems} onItemClick={handleBreadcrumbClick} />
+                    {popUp && (
+                        <PopUp
+                            title="Producto no disponible"
+                            text="Te invitamos a explorar otras opciones similares que podrían interesarte. "
+                            closePopUp={closePopUp}
+                        />
+                    )}
+                    <div className="details">
+                        <div className="image-container">
+                            <div className="image">
+                                <Image src={response.picture} alt={response.title} />
+                            </div>
+                            <h3 className="title">Descripción del producto</h3>
+                            <p className="description">{response.description}</p>
+                        </div>
+                        <div className="info-container">
+                            <p>{response.title}</p>
+                            <h1 className="price">$ {transformPrice(response.price.amount)}</h1>
+                            <div className="button">
+                                <Button text="Comprar" color="primary" onClick={buyProduct} />
+                            </div>
+                        </div>
                     </div>
-                    <h3 className="title">Descripción del producto</h3>
-                    <p className="description">{item.description}</p>
                 </div>
-                <div className="info-container">
-                    <p>{item.title}</p>
-                    <h1 className="price">$ {item.price.amount}</h1>
-                    <div className="button">
-                        <Button text="Comprar" color="primary" onClick={buyProduct} />
-                    </div>
-                </div>
-            </div>
-
+            )
+            }
         </div>
-    )
-}
+    );
+};

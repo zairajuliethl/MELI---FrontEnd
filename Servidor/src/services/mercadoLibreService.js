@@ -40,7 +40,6 @@ export class MercadoLibreService {
   }
 
   static async getProductById(id) {
-    console.log(id,"ID QUE LLEGA");
     const product = this.mockItems.find(item => item.id === id);
 
       const author = {

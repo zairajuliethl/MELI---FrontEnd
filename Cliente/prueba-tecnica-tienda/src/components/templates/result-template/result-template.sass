@@ -1,6 +1,15 @@
+@import 'src/style/breakpoints'
+
 .result-template
     width: 65%
+
+    +for-mobile
+        width: 80%
+
     .cards
         display: grid
         gap: 10px
+
+    .error
+        color: red
 
