@@ -2,7 +2,7 @@ import api from '../services/api';
 
 export const getItems = async (searchTerm) => {
 
-  const response = await api.get(`/items?search=${searchTerm}`);
+  const response = await api.get(`/items?q=${searchTerm}`);
 // const response = await api.get(`/items`);
   return response.data;
 };
