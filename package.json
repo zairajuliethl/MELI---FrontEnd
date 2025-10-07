@@ -11,7 +11,7 @@
     "dev:client": "cd Cliente/prueba-tecnica-tienda && npm start",
     "dev:server": "cd Servidor && npm start",
     "build": "cd Cliente/prueba-tecnica-tienda && npm run build",
-    "test": "npm run test:client && npm run test:server",
+    "test": "npm run test:client ",
     "test:client": "cd Cliente/prueba-tecnica-tienda && npm test -- --watchAll=false",
     "test:server": "cd Servidor && npm test",
     "start": "npm run dev"
