@@ -8,3 +8,4 @@ export { default as shoes } from "./shoes.webp";
 export { default as earphones } from "./earphones.webp";
 export { default as carousel } from "./carousel.png";
 export { default as cam } from "./cam.webp";
+export { default as send } from './send.png';

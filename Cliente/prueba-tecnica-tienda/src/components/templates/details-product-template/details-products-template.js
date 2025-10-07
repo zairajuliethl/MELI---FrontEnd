@@ -48,7 +48,7 @@ export const DetailsProductTemplate = () => {
     if (loading) {
         return (
             <div className="result-template">
-                <Loader />
+                <Loader/>
             </div>
         );
     }
@@ -76,17 +76,22 @@ export const DetailsProductTemplate = () => {
         setPopUp(false)
     }
 
-    const items = [{}, {}, {}, {}]
+    let bread = [];
+
+    if (item) {
+        bread.push({name: item.category});
+        bread.push({name: item.title});
+    }
 
 
     return (
         <div className="details-product-template">
+            <Bredcrumb  items={bread} />
             {popUp && <PopUp title='Producto no disponible' text="Te invitamos a explorar otras opciones similares que podrían interesarte. " closePopUp={closePopUp} />}
-            <Bredcrumb  items={items} />
             <div className="details">
                 <div className="image-container">
                     <div className="image">
-                        <Image src={item.picture} alt='' />
+                        <Image src={item.picture} alt={item.title} />
                     </div>
                     <h3 className="title">Descripción del producto</h3>
                     <p className="description">{item.description}</p>

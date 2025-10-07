@@ -13,7 +13,7 @@ export const Header = ({ searchTerm, setSearchTerm, onSearch, onKeyDown }) => {
 
   return (
     <div className="header">    
-        <img src={logo} alt="logo" onClick={redirectHome} />
+        <img className="logo" src={logo} alt="logo Meli" onClick={redirectHome} />
         <SearchBox
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}

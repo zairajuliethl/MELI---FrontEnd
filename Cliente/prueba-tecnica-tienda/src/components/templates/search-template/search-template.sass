@@ -3,7 +3,7 @@
 .search-template-container
     width: 60%
     margin: 30px
-    padding: 0 30px
+    padding: 20px 30px
     border-radius: 10px
     display: flex
     flex-direction: column
@@ -11,31 +11,54 @@
     background: linear-gradient(to bottom, #FFE600, #e6e6e6)
 
     +for-tablet
-        width: 90%
+        width: 70%
 
     +for-mobile
-        width: 80%
+        width: 70%
 
     .carousel
-        padding: 10px
-        border-radius: 10px
-        background: white
-        height: 300px
         display: flex
-        justify-content: center
         align-items: center
+        background: linear-gradient(90deg, #ffffff, #f7f8fa)
+        border-radius: 20px
+        padding: 2rem 3rem
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1)
+        transition: all 0.3s ease
+        width: 90%
+        gap: 2rem
 
         +for-tablet
-            width: 90%
+            gap: 0
 
         +for-mobile
-            width: 90%
+            width: 70%
+            flex-direction: column
+            gap: 0
 
-        .image-carousel
-            width: 300px
-        .text
-            font-size: 40px
-            font-family: arial
+        &:hover
+            transform: translateY(-4px)
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15)
+
+        .carousel-image
+            img
+                width: 260px
+                +for-mobile
+                    display: none
+
+        .carousel-title
+            display: flex
+            font-family: 'Poppins', sans-serif
+            color: #686262
+            font-weight: 700
+            line-height: 1.2
+            gap: 15px
+
+            +for-tablet
+                gap: 0
+
+            .send-icon
+                width: 40px
+                height: 40px
 
     h2
         width: 100%

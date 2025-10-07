@@ -11,7 +11,7 @@ export const Button = ({ image, onClick, text, color = "secondary" }) => {
 
   return (
     <button className={`button ${colorClass}`} onClick={onClick}>
-      {image && <img src={image} alt="search" />}
+      {image && <img src={image} alt="icono representativo" />}
       {text}
     </button>
   );

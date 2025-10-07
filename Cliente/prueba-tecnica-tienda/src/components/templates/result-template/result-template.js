@@ -58,8 +58,6 @@ export const ResulteTemplate = () => {
             </div>
         );
     }
-
-    console.log(items,"logggg");
     
     if (items.items && !items.items.length && searchTerm) {
         return (
@@ -68,18 +66,25 @@ export const ResulteTemplate = () => {
             </div>
         );
     }
-    let bread = items.categories;
-    console.log(bread);
+
+    
+    let bread = [];
+    if (items.categories && items.categories.length > 0) {
+        bread = items.categories.map(category => ({ name: category.name }));
+    }
+    if (searchTerm) {
+        bread.push({ name: searchTerm });
+    }
 
 
     return (
         <div className="result-template">
-            {/* <Bredcrumb items={bread}/> */}
+            <Bredcrumb items={bread}/>
             <div className="cards">
                 {
                     items.items && items.items.map(i => (
                         <Card
-                            description={i.title}
+                            title={i.title}
                             image={i.picture}
                             price={i.price.amount}
                             clickCard={() => handleCardClick(i.id)}

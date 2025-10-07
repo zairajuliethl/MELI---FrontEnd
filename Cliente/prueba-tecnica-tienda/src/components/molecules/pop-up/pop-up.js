@@ -9,7 +9,7 @@ export const PopUp = ({ title, text, closePopUp }) => {
                 <div className="header-pop-up">
                     <h2>{title}</h2>
                     <button className="close-button" onClick={closePopUp}>
-                        <Image src={close} />
+                        <Image src={close} alt='icono cerrar' />
                     </button>
                 </div>
                 <p>{text}</p>
