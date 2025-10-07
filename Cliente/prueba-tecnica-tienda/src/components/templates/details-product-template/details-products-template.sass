@@ -1,14 +1,40 @@
+@import 'src/style/breakpoints'
+
 .details-product-template
-    background: white
-    padding: 20px
-    width: 64%
-    height: 100%
-    display: grid
-    grid-template-columns: 2fr 1fr
+    display: flex
+    justify-content: center
+
+    .details
+        font-family: arial
+        background: white
+        padding: 20px
+        width: 64%
+        height: 100%
+        display: grid
+        grid-template-columns: 2fr 1fr
+        border-radius: 10px
+
+        +for-mobile
+            display: flex
+            flex-direction: column
+
     .image-container
         display: flex
         flex-direction: column
         text-align: start
-        align-items: start
+        align-items: center
+
+        .image
+            align-items: center
+            display: flex
+        .title
+            width: 100%
+
+        .description
+            text-align: justify
+            color: #a09a9a
     .info-container
         text-align: start
+
+        .button
+            width: 200px

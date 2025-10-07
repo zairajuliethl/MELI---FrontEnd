@@ -1,7 +1,9 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { getItems } from "../../../services/products";
-import { Card } from "../../atoms/card/card";
+import { Card } from "../../molecules/card/card";
+import { Loader } from "../../atoms/loader/loader";
+import { Bredcrumb } from "../../atoms/breadcrumb/breadcrumb"
 import "./result-template.sass";
 
 export const ResulteTemplate = () => {
@@ -12,7 +14,7 @@ export const ResulteTemplate = () => {
     const [error, setError] = useState(null);
 
     const searchTerm = searchParams.get('search') || '';
-    
+
     const fetchItems = useCallback(async () => {
         if (!searchTerm.trim()) {
             setItems([]);
@@ -22,7 +24,9 @@ export const ResulteTemplate = () => {
         setError(null);
         try {
             const data = await getItems(searchTerm);
-            setItems(data.items || []);
+            console.log(JSON.stringify(data.data, null, 2), "DAAAAAAA");
+
+            setItems(data.data);
         } catch (err) {
             setError('Error al cargar los productos');
             console.error('Error loading items:', err);
@@ -30,7 +34,7 @@ export const ResulteTemplate = () => {
             setLoading(false);
         }
     }, [searchTerm]);
-    
+
     useEffect(() => {
         fetchItems();
     }, [fetchItems]);
@@ -42,7 +46,7 @@ export const ResulteTemplate = () => {
     if (loading) {
         return (
             <div className="result-template">
-                <p>Cargando productos...</p>
+                <Loader />
             </div>
         );
     }
@@ -55,27 +59,35 @@ export const ResulteTemplate = () => {
         );
     }
 
-    if (!items.length && searchTerm) {
+    console.log(items,"logggg");
+    
+    if (items.items && !items.items.length && searchTerm) {
         return (
             <div className="result-template">
                 <p>No se encontraron productos para "{searchTerm}"</p>
             </div>
         );
     }
+    let bread = items.categories;
+    console.log(bread);
+
 
     return (
         <div className="result-template">
-            {
-                items.map((item, index) => (
-                    <Card
-                        key={item.id || index}
-                        image={item.picture}
-                        price={item.price?.amount || item.price}
-                        description={item.title}
-                        clickCard={() => handleCardClick(item.id)}
-                    />
-                ))
-            }
+            {/* <Bredcrumb items={bread}/> */}
+            <div className="cards">
+                {
+                    items.items && items.items.map(i => (
+                        <Card
+                            description={i.title}
+                            image={i.picture}
+                            price={i.price.amount}
+                            clickCard={() => handleCardClick(i.id)}
+                        />
+                    )
+                    )
+                }
+            </div>
         </div>
     )
 }

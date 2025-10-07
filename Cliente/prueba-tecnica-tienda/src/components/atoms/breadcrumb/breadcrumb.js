@@ -1,13 +1,20 @@
 import "./breadcrumb.sass"
 
-export const Bredcrumb = () => {
+export const Bredcrumb = (items) => {
+
+    console.log(items,"ITEMS");
+    
     return (
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/productos">Productos</a></li>
-                <li><a href="/productos/electronicos">Electrónicos</a></li>
-                <li>Televisores</li>
+                {/* {
+                    items.items.map(i => (
+                        <li>
+                            <a href="/">{i.name}</a>
+                        </li>
+                    ))
+                } */}
+
             </ol>
         </nav>
     )

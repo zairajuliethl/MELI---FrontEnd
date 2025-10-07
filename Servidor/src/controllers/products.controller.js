@@ -30,7 +30,9 @@ export const getProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await MercadoLibreService.getProductById(id);
+    const result = await MercadoLibreService.getProductById(id); 
+    console.log('ID recibido:', req.params.id);
+   
     
     if (result.success) {
       res.json({
@@ -48,7 +50,7 @@ export const getProductById = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error interno del servidor',
+      message: 'Error interno del fff',
       error: error.message,
     });
   }

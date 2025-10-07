@@ -3,8 +3,7 @@ export const fetchExternalAPI = async (url) => {
     const response = await fetch(url, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
-        'User-Agent': 'Express-API-Consumer/1.0.0'
+        'Accept': 'application/json'
       }
     });
 

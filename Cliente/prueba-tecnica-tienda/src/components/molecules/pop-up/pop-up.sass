@@ -1,0 +1,43 @@
+.pop-up-container 
+    font-family: arial
+    position: fixed
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    background-color: #314b7080
+    z-index: 1000
+
+    .main-container
+        position: relative
+        display: flex
+        flex-direction: column
+        background-color: white
+        border-radius: 15px
+        padding: 24px
+        width: 454px
+        align-items: center
+
+        .header-pop-up
+            width: 100%
+            display: grid
+            grid-template-columns: 5fr 1fr
+            align-items: center
+            margin: 0
+            padding: 0
+
+        .close-button
+            position: absolute
+            top: 16px
+            right: 16px
+            background: none
+            border: none
+            cursor: pointer
+            width: 30px
+            height: 25.5px
+
+        .button
+            width: 200px
